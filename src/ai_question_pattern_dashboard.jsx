@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 const metadata = {
   courseCode: "CSE 4109",
@@ -7,13 +7,24 @@ const metadata = {
   department: "Department of Computer Science and Engineering",
   exam: "B.Sc. Engineering 4th Year 1st Term Examination",
   artifactNote: "Term-final question pattern analysis; term-final label is inferred from the user prompt and exam format.",
-  years: ["2017", "2018", "2019", "2020", "2021"],
+  years: ["2017", "2018", "2019", "2020", "2021", "2024"],
   sections: ["SECTION A / Script A", "SECTION B / Script B"],
-  answerPattern: "2017, 2018, 2019, 2021: any 3 per section; 2020: any 2 per section",
-  marksPattern: "2017, 2018, 2019, 2021: 210 marks; 2020: 120 marks",
+  answerPattern: "2017, 2018, 2019, 2021, 2024: any 3 per section; 2020: any 2 per section",
+  marksPattern: "2017, 2018, 2019, 2021, 2024: 210 marks; 2020: 120 marks",
 };
 
 const sectionA = [
+  { year: "2024", q: "1(a)", topic: "AI Fundamentals", subtopic: "AI definition; subfields; strong vs weak AI; AI techniques", marks: 20, type: "Long", text: "Artificial Intelligence aims to build systems that can perceive, reason, and act intelligently in dynamic environments. Define Artificial Intelligence and discuss four major areas or subfields of AI with suitable real-world examples. Explain the differences between Strong AI and Weak AI with examples. Analyze how AI techniques such as Search, Knowledge representation, or Learning contribute to solving real world problems in one selected domain such as healthcare, transportation, or agriculture." },
+  { year: "2024", q: "1(b)", topic: "AI Fundamentals", subtopic: "Machine intelligence test", marks: 10, type: "Long", text: "How can you be certained that a machine or a program is intelligent?" },
+  { year: "2024", q: "1(c)", topic: "Agents, PEAS & Environments", subtopic: "Learning agent properties", marks: 5, type: "Short", text: "What are the properties of a Learning Agents?" },
+  { year: "2024", q: "2(a)", topic: "Fuzzy Logic & Fuzzy Expert Systems", subtopic: "Fuzzy logic system", marks: 10, type: "Short", text: "What is a Fuzzy Logic System? Explain." },
+  { year: "2024", q: "2(b)", topic: "Fuzzy Logic & Fuzzy Expert Systems", subtopic: "FLS design; student performance; centroid method", marks: 25, type: "Problem", text: "Design a Fuzzy Logic System to evaluate student performance in an Artificial Intelligence course using exam score, class participation, and assignment quality as inputs and performance as output. Define linguistic variables and membership functions with diagram, construct a fuzzy rule base, and for E=78, C=6, A=85 demonstrate fuzzy inference and compute approximate performance using centroid method." },
+  { year: "2024", q: "3(a)", topic: "Agents, PEAS & Environments", subtopic: "PEAS; task environment", marks: 10, type: "Long", text: "What is PEAS? Give description of the task environment for automated taxi driving and playing soccer." },
+  { year: "2024", q: "3(b)", topic: "Uncertainty, Default Logic & Dempster-Shafer", subtopic: "Uncertainty types", marks: 10, type: "Long", text: "What is uncertainty? Explain different types of uncertainty using examples." },
+  { year: "2024", q: "3(c)", topic: "Agents, PEAS & Environments", subtopic: "Reflex vs goal-based agent; learning in dynamic environment", marks: 15, type: "Long", text: "How does a simple reflex agent differ from a goal-based agent? Justify the statement that a learning agent is suitable for dynamic environment using an appropriate example." },
+  { year: "2024", q: "4(a)", topic: "NLP, Grammar & Parse Trees", subtopic: "NLP; syntax; semantics; pragmatics", marks: 10, type: "Short", text: "What is NLP? Explain syntax, semantics, pragmatics using examples." },
+  { year: "2024", q: "4(b)", topic: "Agents, PEAS & Environments", subtopic: "Sensors, actuators, environment", marks: 15, type: "Long", text: "Consider an artificial invigilator monitoring students in an exam hall. What are its sensors, actuators, and environment? Discuss how its sensors and actuators are well suited for its task." },
+  { year: "2024", q: "4(c)", topic: "NLP, Grammar & Parse Trees", subtopic: "Grammar; syntactic tree", marks: 10, type: "Problem", text: "Construct a grammar for the sentence: \"The hunter shot the deer with his gun\". Also draw the syntactic tree." },
   { year: "2021", q: "1(a)", topic: "AI Fundamentals", subtopic: "AI definition; examples of intelligent systems", marks: 12, type: "Short", text: "What is artificial intelligence? To what extent are supermarket bar-code scanners, web search engines, voice-activated telephone menus, and internet routing algorithms instances of artificial intelligence? Explain." },
   { year: "2021", q: "1(b)", topic: "Agents, PEAS & Environments", subtopic: "Sensors, actuators, environment", marks: 13, type: "Long", text: "Consider a rabbit grazing in a carrot field. What are its sensors, actuators and environment? Discuss how its sensors and actuators are well suited to its environment." },
   { year: "2021", q: "1(c)", topic: "AI Fundamentals", subtopic: "AI classification; subfields", marks: 10, type: "Long", text: "Give a demystified classification of artificial intelligence. Justify the statement that most AI subfields focus on smaller components needed for intelligent programs." },
@@ -83,6 +94,17 @@ const sectionA = [
 ];
 
 const sectionB = [
+  { year: "2024", q: "5(a)", topic: "FOL, Propositional Logic & Inference", subtopic: "Propositionalization in FOL", marks: 7, type: "Long", text: "In propositionalization, we can solve any first order logic problem using propositional rules. Is this an effective method for inference in FOL? Discuss your view." },
+  { year: "2024", q: "5(b)", topic: "Search & Game Playing", subtopic: "Tic-tac-toe heuristic; minimax depth 2", marks: 16, type: "Problem", text: "Consider the tic-toc-toe board with row 1: O, X, blank; row 2: O, O, X; row 3: blank, blank, blank. Design a simple heuristic function to evaluate non-terminal board states, generate the search tree up to depth 2, and apply minimax to determine the best move for X and explain whether this move guarantees a win, draw, or loss. CO3 is inferred." },
+  { year: "2024", q: "5(c)", topic: "Search & Game Playing", subtopic: "Admissible and consistent heuristic", marks: 12, type: "Problem", text: "For graph A -> B = 2, A -> C = 5, B -> D = 4, C -> D = 1, D -> G = 3 with heuristic h(A)=6, h(B)=4, h(C)=2, h(D)=3, h(G)=0, determine whether h(n) is admissible and consistent." },
+  { year: "2024", q: "6(a)", topic: "Search & Game Playing", subtopic: "BFS; DLS; IDS; bidirectional search", marks: 12, type: "Problem", text: "Consider a state where start state is 1 and each state k has successors 2k and 2k+1. Goal state is 11. List node visit order for breadth-first search, depth-limited search with limit 3, and iterative deepening search. Explain how bidirectional search would work and identify branching factor in each direction." },
+  { year: "2024", q: "6(b)", topic: "CSP & Local Search", subtopic: "Sudoku CSP; MRV; Degree; LCV", marks: 16, type: "Problem", text: "Consider a partially filled 4x4 Sudoku grid: row 1 is 1, blank, 4, blank; row 2 is blank, 2, blank, 1; row 3 is blank, 3, blank, 4; row 4 is 2, blank, 1, blank. Formulate this as a CSP by defining variables, domain, and constraints, then use MRV, Degree, and LCV heuristics to select a variable, assign a value, and show how the assignment reduces domains of other variables." },
+  { year: "2024", q: "6(c)", topic: "FOL, Propositional Logic & Inference", subtopic: "FOL representation; exactly one quantifier", marks: 7, type: "Problem", text: "Assuming predicates Parent(p,q) and Female(p), and constants Alice and Jack, express in first-order logic: Alice has exactly one child, a daughter; Alice and Jack have exactly one chile together; Alice has exactly one child with Jack and no children with anyone else. The OCR spelling 'chile' is preserved from the source." },
+  { year: "2024", q: "7(a)", topic: "FOL, Propositional Logic & Inference", subtopic: "Entailment and conjunction", marks: 7, type: "Proof", text: "If KB entails alpha and KB entails beta, does it always follow that KB entails alpha and beta? Explain." },
+  { year: "2024", q: "7(b)", topic: "Search & Game Playing", subtopic: "Alpha-beta pruning best and worst case", marks: 10, type: "Problem", text: "Consider a game tree with branching factor b=2 and depth d=3 where the root is a MAX node. Assign leaf values such that alpha-beta pruning performs best and worst. Draw complete trees for both cases showing all nodes and indicate pruned nodes." },
+  { year: "2024", q: "7(c)", topic: "FOL, Propositional Logic & Inference", subtopic: "CNF conversion; resolution proof", marks: 18, type: "Proof", text: "Convert the FOL sentences about loving animals, killing animals, Jack, Tuna, cats, and animals into CNF. Then, using resolution, prove that Kills(Jack, Tuna) is false." },
+  { year: "2024", q: "8(a)", topic: "Planning & Blocks World", subtopic: "Planning; SAG formulation; heuristic planning", marks: 25, type: "Long", text: "An autonomous delivery robot operates inside KUET campus and must plan actions to deliver a parcel from the Main Gate to the CSE building while avoiding blocked pathways and optimizing delivery time. Explain planning in AI and how it differs from traditional search-based problem solving. Represent the delivery task using State-Action-Goal formulation with initial state, goal state, and at least four actions with preconditions and effects. Discuss how heuristic or knowledge-based planning improves efficiency compared to blind search." },
+  { year: "2024", q: "8(b)", topic: "FOL, Propositional Logic & Inference", subtopic: "Validity and satisfiability", marks: 10, type: "Problem", text: "Identify the valid and satisfiable sentences and justify the logic: (i) (p -> q) ∧ (¬p -> ¬q), (ii) (p ∧ q -> p)." },
   { year: "2021", q: "5(a)", topic: "AI Fundamentals", subtopic: "Intelligent system capabilities", marks: 8, type: "Short", text: "How can you decide whether a system is intelligent or not? Write down some capabilities of an AI system." },
   { year: "2021", q: "5(b)", topic: "FOL, Propositional Logic & Inference", subtopic: "Propositional representation; proof", marks: 12, type: "Proof", text: "Express the toddler/child/boy/girl facts in propositional logic and prove that the person is a girl." },
   { year: "2021", q: "5(c)", topic: "Knowledge-Based Agents & Wumpus World", subtopic: "Wumpus rules; proof", marks: 15, type: "Problem", text: "Given a 4x4 Wumpus world grid, derive rules and prove there is a Wumpus at position (1,3)." },
@@ -238,10 +260,10 @@ function Pill({ children, className = "" }) {
 
 function StatCard({ label, value, detail }) {
   return (
-    <Card className="bg-gradient-to-br from-slate-900 to-slate-700 text-white">
-      <div className="text-sm text-slate-300">{label}</div>
+    <Card className="bg-gradient-to-br from-[#048c4b] via-[#048c4b] to-[#048c4b] text-white">
+      <div className="text-sm text-white/90">{label}</div>
       <div className="mt-2 text-3xl font-black tracking-tight">{value}</div>
-      <div className="mt-1 text-xs text-slate-300">{detail}</div>
+      <div className="mt-1 text-xs text-white/90">{detail}</div>
     </Card>
   );
 }
@@ -254,7 +276,7 @@ function TopicTable({ title, stats }) {
           <h2 className="text-xl font-black text-slate-900">{title}</h2>
           <p className="text-sm text-slate-500">High-frequency = asked in at least 3 years or at least 5 subquestions.</p>
         </div>
-        <Pill className="border-emerald-200 bg-emerald-50 text-emerald-700">{stats.filter((s) => s.high).length} high-frequency topics</Pill>
+        <Pill className="border-[#048c4b]/20 bg-[#048c4b]/6 text-[#048c4b]">{stats.filter((s) => s.high).length} high-frequency topics</Pill>
       </div>
       <div className="overflow-x-auto">
         <table className="w-full min-w-[720px] border-separate border-spacing-y-2 text-left text-sm">
@@ -275,7 +297,7 @@ function TopicTable({ title, stats }) {
                 <td className="px-3 py-3 font-semibold">{row.marks}</td>
                 <td className="px-3 py-3 text-slate-600">{row.years.join(", ")}</td>
                 <td className="rounded-r-xl px-3 py-3">
-                  {row.high ? <Pill className="border-emerald-200 bg-emerald-50 text-emerald-700">High</Pill> : <Pill className="border-slate-200 bg-white text-slate-500">Watch</Pill>}
+                  {row.high ? <Pill className="border-[#048c4b]/20 bg-[#048c4b]/6 text-[#048c4b]">High</Pill> : <Pill className="border-slate-200 bg-white text-slate-500">Watch</Pill>}
                 </td>
               </tr>
             ))}
@@ -290,12 +312,12 @@ function MiniTrend({ items, topic }) {
   const trend = yearTrend(items, topic);
   const max = Math.max(1, ...trend.map((d) => d.count));
   return (
-    <div className="grid grid-cols-5 gap-2">
+    <div className="grid gap-2" style={{ gridTemplateColumns: `repeat(${metadata.years.length}, minmax(0, 1fr))` }}>
       {trend.map((d) => (
         <div key={d.year} className="rounded-xl bg-slate-50 p-2 text-center">
           <div className="mb-1 text-[10px] font-bold text-slate-500">{d.year}</div>
-          <div className="mx-auto flex h-14 w-4 items-end rounded-full bg-slate-200">
-            <div className="w-4 rounded-full bg-slate-900" style={{ height: `${(d.count / max) * 100}%`, minHeight: d.count ? 8 : 0 }} />
+          <div className="mx-auto flex h-14 w-4 items-end rounded-full bg-[#048c4b]/10">
+            <div className="w-4 rounded-full bg-[#048c4b]" style={{ height: `${(d.count / max) * 100}%`, minHeight: d.count ? 8 : 0 }} />
           </div>
           <div className="mt-1 text-xs font-bold text-slate-700">{d.count}</div>
         </div>
@@ -321,7 +343,7 @@ function FrequencyAnalysis({ all, sectionAStats, sectionBStats }) {
                   <div className="font-black text-slate-900">{row.topic}</div>
                   <div className="text-sm text-slate-500">{row.questions} questions · {row.marks} marks · {row.years.join(", ")}</div>
                 </div>
-                {row.high && <Pill className="border-emerald-200 bg-emerald-50 text-emerald-700">High</Pill>}
+                {row.high && <Pill className="border-[#048c4b]/20 bg-[#048c4b]/6 text-[#048c4b]">High</Pill>}
               </div>
               <MiniTrend items={all} topic={row.topic} />
             </div>
@@ -339,8 +361,8 @@ function FrequencyAnalysis({ all, sectionAStats, sectionBStats }) {
                   <span className="font-bold text-slate-700">{type}</span>
                   <span className="font-black text-slate-900">{count}</span>
                 </div>
-                <div className="h-3 rounded-full bg-slate-100">
-                  <div className="h-3 rounded-full bg-slate-900" style={{ width: `${(count / maxType) * 100}%` }} />
+                <div className="h-3 rounded-full bg-[#048c4b]/10">
+                  <div className="h-3 rounded-full bg-[#048c4b]" style={{ width: `${(count / maxType) * 100}%` }} />
                 </div>
               </div>
             ))}
@@ -351,13 +373,13 @@ function FrequencyAnalysis({ all, sectionAStats, sectionBStats }) {
         <Card>
           <h2 className="text-xl font-black text-slate-900">Section contrast</h2>
           <div className="mt-4 grid gap-3">
-            <div className="rounded-xl bg-blue-50 p-4">
-              <div className="font-black text-blue-900">Section A pattern</div>
-              <div className="mt-1 text-sm text-blue-800">Concept-heavy: agents, PEAS, fuzzy logic, CSP, heuristic search, minimax/A* comparisons.</div>
+            <div className="rounded-xl border border-[#048c4b]/20 bg-white p-4">
+              <div className="font-black text-[#048c4b]">Section A pattern</div>
+              <div className="mt-1 text-sm text-slate-700">Concept-heavy: agents, PEAS, fuzzy logic, CSP, heuristic search, minimax/A* comparisons.</div>
             </div>
-            <div className="rounded-xl bg-violet-50 p-4">
-              <div className="font-black text-violet-900">Section B pattern</div>
-              <div className="mt-1 text-sm text-violet-800">Computation-heavy: Bayesian networks, probability tables, Dempster-Shafer, FOL proofs, Wumpus, NLP grammar.</div>
+            <div className="rounded-xl border border-[#048c4b]/20 bg-white p-4">
+              <div className="font-black text-[#048c4b]">Section B pattern</div>
+              <div className="mt-1 text-sm text-slate-700">Computation-heavy: Bayesian networks, probability tables, Dempster-Shafer, FOL proofs, Wumpus, NLP grammar.</div>
             </div>
             <div className="rounded-xl bg-amber-50 p-4">
               <div className="font-black text-amber-900">Shift note</div>
@@ -367,7 +389,7 @@ function FrequencyAnalysis({ all, sectionAStats, sectionBStats }) {
         </Card>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-2">
+      <div className="grid gap-6">
         <TopicTable title="Section A high-frequency snapshot" stats={sectionAStats.slice(0, 5)} />
         <TopicTable title="Section B high-frequency snapshot" stats={sectionBStats.slice(0, 5)} />
       </div>
@@ -410,7 +432,7 @@ function QuestionList({ title, items }) {
               <button
                 key={year}
                 onClick={() => handleYearChange(year)}
-                className={`rounded-xl px-3 py-2 text-sm font-bold transition ${selectedYear === year ? "bg-slate-900 text-white shadow" : "bg-white text-slate-600 hover:bg-slate-100"}`}
+                className={`rounded-xl px-3 py-2 text-sm font-bold transition ${selectedYear === year ? "bg-[#048c4b] text-white shadow" : "bg-white text-slate-600 hover:bg-[#048c4b]/6"}`}
               >
                 {year}
               </button>
@@ -448,7 +470,7 @@ function QuestionList({ title, items }) {
                   <p className="mt-1 text-sm text-slate-500">Frequency: {group.questions} questions · {group.marks} marks · Years: {group.years.join(", ")}</p>
                 </div>
                 <div className="flex flex-wrap items-center gap-2">
-                  {group.high ? <Pill className="border-emerald-200 bg-emerald-50 text-emerald-700">High-frequency</Pill> : <Pill className="border-slate-200 bg-white text-slate-500">Lower-frequency</Pill>}
+                  {group.high ? <Pill className="border-[#048c4b]/20 bg-[#048c4b]/6 text-[#048c4b]">High-frequency</Pill> : <Pill className="border-slate-200 bg-white text-slate-500">Lower-frequency</Pill>}
                   <Pill className="border-slate-200 bg-white text-slate-600">{isOpen ? "Hide questions" : "Show questions"}</Pill>
                 </div>
               </button>
@@ -484,7 +506,7 @@ function Summary({ sectionAStats, sectionBStats, allStats, all }) {
   return (
     <div className="space-y-6">
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <StatCard label="Years analyzed" value="5" detail={metadata.years.join(" · ")} />
+        <StatCard label="Years analyzed" value={metadata.years.length} detail={metadata.years.join(" · ")} />
         <StatCard label="Total topics" value={totalTopics} detail="normalized across both sections" />
         <StatCard label="Total subquestions" value={totalQuestions} detail="marks-bearing parts counted" />
         <StatCard label="Total mapped marks" value={totalMarks} detail="sum of extracted subquestion marks" />
@@ -510,19 +532,19 @@ function Summary({ sectionAStats, sectionBStats, allStats, all }) {
               </div>
             </div>
           </div>
-          <div className="rounded-2xl bg-emerald-50 p-5">
-            <div className="text-xs font-bold uppercase tracking-wide text-emerald-700">High-frequency topics</div>
+          <div className="rounded-2xl border border-[#048c4b]/20 bg-[#048c4b]/6 p-5">
+            <div className="text-xs font-bold uppercase tracking-wide text-[#048c4b]">High-frequency topics</div>
             <div className="mt-3 flex flex-wrap gap-2">
               {highTopics.slice(0, 12).map((topic) => (
-                <Pill key={topic.topic} className="border-emerald-200 bg-white text-emerald-800">{topic.topic}</Pill>
+                <Pill key={topic.topic} className="border-[#048c4b]/20 bg-white text-[#048c4b]">{topic.topic}</Pill>
               ))}
             </div>
-            <p className="mt-4 text-sm text-emerald-900">Threshold used: asked in ≥3 years or ≥5 subquestions.</p>
+            <p className="mt-4 text-sm text-[#048c4b]">Threshold used: asked in ≥3 years or ≥5 subquestions.</p>
           </div>
         </div>
       </Card>
 
-      <div className="grid gap-6 lg:grid-cols-2">
+      <div className="grid gap-6">
         <TopicTable title="Section A topics" stats={sectionAStats} />
         <TopicTable title="Section B topics" stats={sectionBStats} />
       </div>
@@ -562,6 +584,18 @@ const tabs = [
   { id: "insights", label: "Examiner Insights" },
 ];
 
+const visitCountStorageKey = "ai-question-dashboard-visit-count";
+
+function readStoredNumber(key) {
+  if (typeof window === "undefined") {
+    return 0;
+  }
+
+  const rawValue = window.localStorage.getItem(key);
+  const parsedValue = Number.parseInt(rawValue || "0", 10);
+  return Number.isFinite(parsedValue) ? parsedValue : 0;
+}
+
 const dashboardCss = `
   .dashboard-root {
     font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -576,7 +610,7 @@ const dashboardCss = `
   }
 
   .dashboard-root button:focus-visible {
-    outline: 3px solid rgba(15, 23, 42, 0.35);
+    outline: 3px solid rgba(2, 199, 104, 0.35);
     outline-offset: 2px;
   }
 
@@ -585,7 +619,7 @@ const dashboardCss = `
   }
 
   .dashboard-root ::selection {
-    background: rgba(15, 23, 42, 0.16);
+    background: rgba(2, 199, 104, 0.16);
   }
 
   .dashboard-root .question-card {
@@ -603,7 +637,7 @@ const dashboardCss = `
   }
 
   .dashboard-root .topic-toggle:hover {
-    background: rgb(248 250 252);
+    background: rgba(2, 199, 104, 0.06);
   }
 
   .dashboard-root .topic-panel {
@@ -635,27 +669,38 @@ const dashboardCss = `
 
 export default function AIQuestionPatternDashboard() {
   const [active, setActive] = useState("summary");
+  const [visitCount, setVisitCount] = useState(0);
   const all = useMemo(() => [...sectionA, ...sectionB], []);
   const sectionAStats = useMemo(() => makeStats(sectionA), []);
   const sectionBStats = useMemo(() => makeStats(sectionB), []);
   const allStats = useMemo(() => makeStats(all), [all]);
 
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return undefined;
+    }
+
+    const storedVisitCount = readStoredNumber(visitCountStorageKey) + 1;
+    window.localStorage.setItem(visitCountStorageKey, String(storedVisitCount));
+    setVisitCount(storedVisitCount);
+  }, []);
+
   return (
-    <div className="dashboard-root min-h-screen bg-slate-100 text-slate-900">
+    <div className="dashboard-root min-h-screen bg-white text-slate-900">
       <style>{dashboardCss}</style>
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <header className="mb-6 overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-slate-200">
-          <div className="bg-gradient-to-br from-slate-950 via-slate-800 to-slate-700 p-7 text-white">
+          <div className="bg-gradient-to-br from-[#048c4b] via-[#048c4b] to-[#048c4b] p-7 text-white">
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div>
-                <div className="text-sm font-bold uppercase tracking-[0.2em] text-slate-300">Exam-question pattern dashboard</div>
+                <div className="text-sm font-bold uppercase tracking-[0.2em] text-white/90">Exam-question pattern dashboard</div>
                 <h1 className="mt-3 text-3xl font-black tracking-tight sm:text-5xl">{metadata.courseCode}: {metadata.courseName}</h1>
-                <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-300">{metadata.institution} · {metadata.department}</p>
+                <p className="mt-3 max-w-3xl text-sm leading-6 text-white/90">{metadata.institution} · {metadata.department}</p>
               </div>
-              <div className="rounded-2xl bg-white/10 p-4 text-sm backdrop-blur">
+              <div className="rounded-2xl bg-white/15 p-4 text-sm backdrop-blur">
                 <div className="font-black">{metadata.exam}</div>
-                <div className="mt-1 text-slate-300">Years: {metadata.years.join(", ")}</div>
-                <div className="text-slate-300">{metadata.sections.join(" · ")}</div>
+                <div className="mt-1 text-white/90">Years: {metadata.years.join(", ")}</div>
+                <div className="text-white/90">{metadata.sections.join(" · ")}</div>
               </div>
             </div>
           </div>
@@ -672,7 +717,7 @@ export default function AIQuestionPatternDashboard() {
               <button
                 key={tab.id}
                 onClick={() => setActive(tab.id)}
-                className={`rounded-xl px-4 py-2 text-sm font-bold transition ${active === tab.id ? "bg-slate-900 text-white shadow" : "text-slate-600 hover:bg-slate-100"}`}
+                className={`rounded-xl px-4 py-2 text-sm font-bold transition ${active === tab.id ? "bg-[#048c4b] text-white shadow" : "text-slate-600 hover:bg-[#048c4b]/6"}`}
               >
                 {tab.label}
               </button>
@@ -689,6 +734,26 @@ export default function AIQuestionPatternDashboard() {
           {active === "qb" && <QuestionList title="Section B Topicwise Exact Question List with Frequency" items={sectionB} />}
           {active === "insights" && <Insights />}
         </main>
+
+        <footer className="mt-8 rounded-3xl border border-[#048c4b]/20 bg-white/90 p-5 shadow-sm backdrop-blur">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <div className="text-xs font-bold uppercase tracking-[0.2em] text-[#048c4b]">Visitor snapshot</div>
+              <h2 className="mt-2 text-lg font-black text-slate-900">Page counter</h2>
+              {/* <p className="mt-1 text-sm leading-6 text-slate-600">
+                This count is stored in the browser only. It updates without any backend or database, so it reflects this deployment origin and active tabs rather than global site traffic.
+              </p> */}
+            </div>
+            <div className="grid gap-3 sm:min-w-[320px] sm:grid-cols-2">
+              <div className="rounded-2xl border border-[#048c4b]/20 bg-white p-4">
+                <div className="flex items-center gap-3">
+                  <div className="text-xs font-bold uppercase tracking-wide text-[#048c4b]">Visit count :</div>
+                  <span className="text-3xl font-black text-[#048c4b]">{visitCount}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </footer>
       </div>
     </div>
   );
