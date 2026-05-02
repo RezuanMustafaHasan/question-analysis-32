@@ -433,11 +433,11 @@ function QuestionList({ title, items }) {
         stats.map((group) => {
           const isOpen = Boolean(openTopics[group.topic]);
           return (
-            <Card key={group.topic} className="overflow-hidden">
+            <Card key={group.topic} className="question-card overflow-hidden">
               <button
                 type="button"
                 onClick={() => toggleTopic(group.topic)}
-                className="flex w-full flex-wrap items-center justify-between gap-3 text-left"
+                className="topic-toggle flex w-full flex-wrap items-center justify-between gap-3 rounded-2xl p-2 text-left"
                 aria-expanded={isOpen}
               >
                 <div>
@@ -454,7 +454,7 @@ function QuestionList({ title, items }) {
               </button>
 
               {isOpen && (
-                <div className="mt-4 space-y-3 border-t border-slate-200 pt-4">
+                <div className="topic-panel mt-4 space-y-3 border-t border-slate-200 pt-4">
                   {group.qs.sort((a, b) => b.year.localeCompare(a.year) || a.q.localeCompare(b.q)).map((item) => (
                     <div key={`${item.year}-${item.q}-${item.subtopic}`} className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
                       <div className="mb-2 flex flex-wrap items-center gap-2">
@@ -562,6 +562,77 @@ const tabs = [
   { id: "insights", label: "Examiner Insights" },
 ];
 
+const dashboardCss = `
+  .dashboard-root {
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+
+  .dashboard-root * {
+    box-sizing: border-box;
+  }
+
+  .dashboard-root button {
+    cursor: pointer;
+  }
+
+  .dashboard-root button:focus-visible {
+    outline: 3px solid rgba(15, 23, 42, 0.35);
+    outline-offset: 2px;
+  }
+
+  .dashboard-root table {
+    border-collapse: separate;
+  }
+
+  .dashboard-root ::selection {
+    background: rgba(15, 23, 42, 0.16);
+  }
+
+  .dashboard-root .question-card {
+    transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+  }
+
+  .dashboard-root .question-card:hover {
+    transform: translateY(-1px);
+    border-color: rgb(203 213 225);
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.07);
+  }
+
+  .dashboard-root .topic-toggle {
+    transition: background-color 180ms ease, transform 180ms ease;
+  }
+
+  .dashboard-root .topic-toggle:hover {
+    background: rgb(248 250 252);
+  }
+
+  .dashboard-root .topic-panel {
+    animation: dashboardSlideDown 180ms ease-out;
+  }
+
+  @keyframes dashboardSlideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media print {
+    .dashboard-root nav,
+    .dashboard-root button {
+      position: static !important;
+    }
+
+    .dashboard-root {
+      background: white !important;
+    }
+  }
+`;
+
 export default function AIQuestionPatternDashboard() {
   const [active, setActive] = useState("summary");
   const all = useMemo(() => [...sectionA, ...sectionB], []);
@@ -570,7 +641,8 @@ export default function AIQuestionPatternDashboard() {
   const allStats = useMemo(() => makeStats(all), [all]);
 
   return (
-    <div className="min-h-screen bg-slate-100 text-slate-900">
+    <div className="dashboard-root min-h-screen bg-slate-100 text-slate-900">
+      <style>{dashboardCss}</style>
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <header className="mb-6 overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-slate-200">
           <div className="bg-gradient-to-br from-slate-950 via-slate-800 to-slate-700 p-7 text-white">
