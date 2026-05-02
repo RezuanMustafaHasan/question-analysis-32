@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 
 const metadata = {
   courseCode: "CSE 4109",
@@ -7,13 +7,39 @@ const metadata = {
   department: "Department of Computer Science and Engineering",
   exam: "B.Sc. Engineering 4th Year 1st Term Examination",
   artifactNote: "Term-final question pattern analysis; term-final label is inferred from the user prompt and exam format.",
-  years: ["2017", "2018", "2019", "2020", "2021", "2024"],
+  years: ["2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024"],
   sections: ["SECTION A / Script A", "SECTION B / Script B"],
-  answerPattern: "2017, 2018, 2019, 2021, 2024: any 3 per section; 2020: any 2 per section",
-  marksPattern: "2017, 2018, 2019, 2021, 2024: 210 marks; 2020: 120 marks",
+  answerPattern: "2017-2019, 2021-2024: any 3 per section; 2020: any 2 per section",
+  marksPattern: "2017-2019, 2021-2024: 210 marks; 2020: 120 marks",
 };
 
 const sectionA = [
+  { year: "2023", q: "1(a)", topic: "AI Fundamentals", subtopic: "Machine or program intelligence", marks: 10, type: "Long", text: "How can you tell whether a machine or program is intelligent?" },
+  { year: "2023", q: "1(b)", topic: "Knowledge-Based Agents & Wumpus World", subtopic: "Wumpus world characterization", marks: 10, type: "Short", text: "Describe the Wumpus world characterization briefly." },
+  { year: "2023", q: "1(c)", topic: "FOL, Propositional Logic & Inference", subtopic: "Propositional proof; forward inference", marks: 15, type: "Proof", text: "Given facts and rules about a plant being a tree, having a trunk, producing fruit or flowers, fruit trees, flowering trees, apple trees, orange trees, cherry blossom trees, magnolia trees, and the facts that the plant produces flowers and has pink flowers, determine whether it is possible to prove that the plant is a cherry blossom tree. If yes, prove it; otherwise ignore." },
+  { year: "2023", q: "2(a)", topic: "FOL, Propositional Logic & Inference", subtopic: "Validity and satisfiability", marks: 10, type: "Problem", text: "Identify the valid and satisfiable sentences and justify the logic: (i) (p ⇒ q) ∧ (¬q ⇒ ¬p), (ii) (p ∧ q) ⇒ p." },
+  { year: "2023", q: "2(b)", topic: "Knowledge-Based Agents & Wumpus World", subtopic: "Wumpus rules; pit proof", marks: 15, type: "Problem", text: "Consider the Wumpus world problem where A, W, S, B, G, and P define the facts of the Wumpus world in a faint grid with a B/G cell. Derive rules from the grid and show that there is a Pit P3,3 in position (3,3)." },
+  { year: "2023", q: "2(c)", topic: "FOL, Propositional Logic & Inference", subtopic: "Propositional vs predicate logic for knowledge representation", marks: 10, type: "Long", text: "Among propositional logic and predicate logic, which one will you choose for knowledge representation and why?" },
+  { year: "2023", q: "3(a)", topic: "FOL, Propositional Logic & Inference", subtopic: "Objects, relations, properties and functions", marks: 12, type: "Problem", text: "Find out the objects, relations, properties and functions from the sentences: the cat chases the mouse; the sun rises in the east; Socrates is a philosopher; the book is on the table." },
+  { year: "2023", q: "3(b)", topic: "FOL, Propositional Logic & Inference", subtopic: "FOL forward chaining", marks: 13, type: "Proof", text: "According to company policy, it is intrusion if any employee accesses confidential files without clearance. Tom accessed confidential files and Tom does not have clearance. Using forward chaining of first-order logic, prove that Tom is an intruder." },
+  { year: "2023", q: "3(c)", topic: "Adversarial Search & Game Playing", subtopic: "Alpha-beta pruning", marks: 10, type: "Long", text: "What is alpha-beta pruning? Why do you need it in game theory? Explain your answer with a proper example." },
+  { year: "2023", q: "4(a)", topic: "Search Fundamentals", subtopic: "Bidirectional search", marks: 10, type: "Long", text: "Discuss the concept of bidirectional search. How does it improve search efficiency? What are the challenges associated with implementing bidirectional search?" },
+  { year: "2023", q: "4(b)", topic: "Planning & Blocks World", subtopic: "Planning action; importance of planning", marks: 10, type: "Long", text: "Define action in planning. Why do we study planning in artificial intelligence?" },
+  { year: "2023", q: "4(c)", topic: "Planning & Blocks World", subtopic: "Forward planning; blocks world", marks: 15, type: "Problem", text: "Consider a Blocks World planning problem where a one-handed robot must rearrange blocks from the initial state with C on B, and D and A separate, to the goal state with C on A and D on B. Design exactly two actions and show the sequence of actions using forward planning." },
+
+  { year: "2022", q: "1(a)", topic: "AI Fundamentals", subtopic: "General intelligence testing", marks: 12, type: "Long", text: "How can you test whether a computer has reached the general intelligence level of human being? Explain." },
+  { year: "2022", q: "1(b)", topic: "Agents, PEAS & Environments", subtopic: "Sensors, actuators, environment", marks: 13, type: "Long", text: "Consider a cow grazing in a grass field. What are its sensors, actuators, and environment? Explain how its sensors and actuators are well-suited to its environment." },
+  { year: "2022", q: "1(c)", topic: "AI Fundamentals", subtopic: "AI as science and engineering", marks: 10, type: "Long", text: "Is Artificial Intelligence a science, or is it engineering, or neither, or both? Explain clearly." },
+  { year: "2022", q: "2(a)", topic: "Fuzzy Logic & Fuzzy Expert Systems", subtopic: "Fuzzy logic system", marks: 10, type: "Short", text: "What is fuzzy logic system? Explain." },
+  { year: "2022", q: "2(b)", topic: "Fuzzy Logic & Fuzzy Expert Systems", subtopic: "Fuzzy set operations", marks: 10, type: "Long", text: "Illustrate different operations on fuzzy set. Use pictorial view also." },
+  { year: "2022", q: "2(c)", topic: "Fuzzy Logic & Fuzzy Expert Systems", subtopic: "Fuzzy expert system; washing machine", marks: 15, type: "Problem", text: "Design a fuzzy logic-based washing machine system using fuzzy expert system development methodology." },
+  { year: "2022", q: "3(a)", topic: "Agents, PEAS & Environments", subtopic: "PEAS; task environment", marks: 10, type: "Long", text: "What is PEAS? Give PEAS description of the task environment for automated car driving and playing soccer." },
+  { year: "2022", q: "3(b)", topic: "CSP & Local Search", subtopic: "CSP local search; min-conflict heuristic", marks: 12, type: "Long", text: "Develop a local search algorithm for solving CSP using min-conflict heuristic." },
+  { year: "2022", q: "3(c)", topic: "NLP, Grammar & Parse Trees", subtopic: "NLP; syntax; semantics; pragmatics; discourse", marks: 13, type: "Short", text: "What is NLP? Explain syntax, semantics, pragmatics and discourse using examples." },
+  { year: "2022", q: "4(a)", topic: "Uncertainty, Default Logic & Dempster-Shafer", subtopic: "Uncertainty types", marks: 10, type: "Long", text: "What is uncertainty? Explain different types of uncertainty using examples." },
+  { year: "2022", q: "4(b)", topic: "Probabilistic Reasoning & Bayesian Networks", subtopic: "Bayesian network product formula", marks: 12, type: "Problem", text: "Derive the product formula for Bayesian network. Show the steps to calculate the product formula of the Burglary-Earthquake-Alarm-John Calls-Mary Calls Bayesian network." },
+  { year: "2022", q: "4(c)", topic: "Probabilistic Reasoning & Bayesian Networks", subtopic: "Rain-Sprinkler-Grass wet Bayesian network", marks: 13, type: "Problem", text: "Consider the Rain, Sprinkler, and Grass wet Bayesian network with Rain prior table and a Sprinkler conditional table. A blank rectangular area appears in the scan with no readable values. Calculate the probability that it is raining given that the grass is wet." },
+
   { year: "2024", q: "1(a)", topic: "AI Fundamentals", subtopic: "AI definition; subfields; strong vs weak AI; AI techniques", marks: 20, type: "Long", text: "Artificial Intelligence aims to build systems that can perceive, reason, and act intelligently in dynamic environments. Define Artificial Intelligence and discuss four major areas or subfields of AI with suitable real-world examples. Explain the differences between Strong AI and Weak AI with examples. Analyze how AI techniques such as Search, Knowledge representation, or Learning contribute to solving real world problems in one selected domain such as healthcare, transportation, or agriculture." },
   { year: "2024", q: "1(b)", topic: "AI Fundamentals", subtopic: "Machine intelligence test", marks: 10, type: "Long", text: "How can you be certained that a machine or a program is intelligent?" },
   { year: "2024", q: "1(c)", topic: "Agents, PEAS & Environments", subtopic: "Learning agent properties", marks: 5, type: "Short", text: "What are the properties of a Learning Agents?" },
@@ -58,10 +84,10 @@ const sectionA = [
   { year: "2019", q: "3(a)", topic: "Fuzzy Logic & Fuzzy Expert Systems", subtopic: "Fuzzy logic system", marks: 10, type: "Short", text: "What is a fuzzy logic system? Explain clearly." },
   { year: "2019", q: "3(b)", topic: "Fuzzy Logic & Fuzzy Expert Systems", subtopic: "Fuzzy set operations", marks: 10, type: "Long", text: "Discuss different operations on fuzzy sets. Use pictorial view for clarity." },
   { year: "2019", q: "3(c)", topic: "Fuzzy Logic & Fuzzy Expert Systems", subtopic: "Fuzzy expert system; A/C control", marks: 15, type: "Long", text: "Develop a general structure of a fuzzy expert system and explain it using a fuzzy logic controller of an A/C system." },
-  { year: "2019", q: "4(a)", topic: "FOL, Logic & CNF", subtopic: "Unification", marks: 7, type: "Short", text: "What is unification in FOL? Why is it a key component in first-order inference algorithm?" },
-  { year: "2019", q: "4(b)", topic: "FOL, Logic & CNF", subtopic: "Forward and backward chaining", marks: 15, type: "Proof", text: "Using forward chaining and backward chaining, prove that Col. West is a criminal from the given law, hostile nation, missiles, and American facts." },
-  { year: "2019", q: "4(c)", topic: "FOL, Logic & CNF", subtopic: "CNF conversion", marks: 8, type: "Problem", text: "Convert the logic A <=> (B ∨ C) into CNF." },
-  { year: "2019", q: "4(d)", topic: "FOL, Logic & CNF", subtopic: "FOL vs propositional logic", marks: 5, type: "Short", text: "What are the advantages of FOL over propositional logic?" },
+  { year: "2019", q: "4(a)", topic: "FOL, Propositional Logic & Inference", subtopic: "Unification", marks: 7, type: "Short", text: "What is unification in FOL? Why is it a key component in first-order inference algorithm?" },
+  { year: "2019", q: "4(b)", topic: "FOL, Propositional Logic & Inference", subtopic: "Forward and backward chaining", marks: 15, type: "Proof", text: "Using forward chaining and backward chaining, prove that Col. West is a criminal from the given law, hostile nation, missiles, and American facts." },
+  { year: "2019", q: "4(c)", topic: "FOL, Propositional Logic & Inference", subtopic: "CNF conversion", marks: 8, type: "Problem", text: "Convert the logic A <=> (B ∨ C) into CNF." },
+  { year: "2019", q: "4(d)", topic: "FOL, Propositional Logic & Inference", subtopic: "FOL vs propositional logic", marks: 5, type: "Short", text: "What are the advantages of FOL over propositional logic?" },
 
   { year: "2018", q: "1(a)", topic: "Agents, PEAS & Environments", subtopic: "Agent; learning agent", marks: 12, type: "Long", text: "Define an Agent. Explain the structure of a learning agent. Use physical examples." },
   { year: "2018", q: "1(b)", topic: "Agents, PEAS & Environments", subtopic: "Perception-action cycle", marks: 13, type: "Long", text: "Describe the perception-action cycle of a robot which will move in a two dimensional grid world." },
@@ -94,6 +120,32 @@ const sectionA = [
 ];
 
 const sectionB = [
+  { year: "2023", q: "5(a)", topic: "AI Fundamentals", subtopic: "AI definition; examples of intelligent systems", marks: 12, type: "Long", text: "What is AI? To what extent are supermarket barcode scanners, voice-activated telephone menus, and internet routing algorithms instances of AI? Explain." },
+  { year: "2023", q: "5(b)", topic: "Agents, PEAS & Environments", subtopic: "Sensors, actuators, environment", marks: 13, type: "Long", text: "Consider a rabbit grazing in a carrot field. What are its sensors, actuators, and environment? Discuss how its sensors and actuators are well-suited to its environment." },
+  { year: "2023", q: "5(c)", topic: "AI Fundamentals", subtopic: "AI classification; subfields", marks: 10, type: "Long", text: "Give a demystified classification of AI. Justify the statement that most subfields in AI focus on smaller components thought to be necessary for producing intelligent programs." },
+  { year: "2023", q: "6(a)", topic: "Probabilistic Reasoning & Bayesian Networks", subtopic: "Bayes theorem; meningitis", marks: 13, type: "Problem", text: "A doctor knows that meningitis causes stiff neck 70% of the time. The prior probability that a patient has meningitis is 1/50,000 and for stiff neck is 1%. Calculate p(meningitis | stiffneck)." },
+  { year: "2023", q: "6(b)", topic: "Agents, PEAS & Environments", subtopic: "PEAS; task environment", marks: 12, type: "Long", text: "Define PEAS and give PEAS descriptions of the task environment for knitting a sweater and playing soccer." },
+  { year: "2023", q: "6(c)", topic: "AI Fundamentals", subtopic: "Turing test", marks: 10, type: "Short", text: "What is the significance of Turing test in AI? Explain briefly." },
+  { year: "2023", q: "7(a)", topic: "Uncertainty, Default Logic & Dempster-Shafer", subtopic: "Uncertainty types", marks: 10, type: "Long", text: "What is uncertainty? Explain different types of uncertainty using examples." },
+  { year: "2023", q: "7(b)", topic: "Probabilistic Reasoning & Bayesian Networks", subtopic: "Bayesian network product formula", marks: 13, type: "Problem", text: "Derive the product formula for Bayesian network. Show the steps to calculate the product formula of the Burglary-Earthquake-Alarm-John Calls-Mary Calls Bayesian network." },
+  { year: "2023", q: "7(c)", topic: "CSP & Local Search", subtopic: "Graph coloring CSP", marks: 12, type: "Problem", text: "Formulate graph coloring problem as a constraint satisfaction problem. Draw the constraint graph for an arbitrary graph." },
+  { year: "2023", q: "8(a)", topic: "Fuzzy Logic & Fuzzy Expert Systems", subtopic: "Fuzzy logic system", marks: 10, type: "Short", text: "What do you mean by fuzzy logic system? Explain using example." },
+  { year: "2023", q: "8(b)", topic: "Fuzzy Logic & Fuzzy Expert Systems", subtopic: "Fuzzy set operations", marks: 10, type: "Long", text: "Explain different operations on fuzzy sets. Use pictorial representation for their clarification." },
+  { year: "2023", q: "8(c)", topic: "Fuzzy Logic & Fuzzy Expert Systems", subtopic: "Fuzzy expert system; air-conditioning", marks: 15, type: "Problem", text: "Design a fuzzy logic based Air-conditioning system for your classroom using fuzzy expert system development methodology." },
+
+  { year: "2022", q: "5(a)", topic: "AI Fundamentals", subtopic: "Expert human replacement", marks: 10, type: "Long", text: "A machine can replace an expert human. When will it be possible? Illustrate your answer." },
+  { year: "2022", q: "5(b)", topic: "Knowledge-Based Agents & Wumpus World", subtopic: "Knowledge-based agent pseudo program", marks: 10, type: "Long", text: "Design a generic knowledge-based agent pseudo program. What does it do in each call?" },
+  { year: "2022", q: "5(c)", topic: "FOL, Propositional Logic & Inference", subtopic: "Propositional logic proof; unicorn problem", marks: 15, type: "Proof", text: "Given rules about a unicorn being mythical, immortal, mortal mammal, horned, and magical, use propositional logic to determine whether you can prove that the unicorn is mythical, magical, and horned." },
+  { year: "2022", q: "6(a)", topic: "FOL, Propositional Logic & Inference", subtopic: "Quantifier equivalence", marks: 7, type: "Proof", text: "Verify the relation between existential and universal quantifier: ∀x P(x) ↔ ¬∃x ¬P(x)." },
+  { year: "2022", q: "6(b)", topic: "FOL, Propositional Logic & Inference", subtopic: "FOL conversion; forward chaining", marks: 18, type: "Proof", text: "Given axioms about Mr. X loving all clothes, suits and jackets being clothes, anything worn by a not-bad person being clothes, Mr. Y wearing shirt and being good, and Mr. Z wearing anything Mr. Y wears, convert the sentences into first order logic and apply forward chaining to prove that Mr. X loves Punjabi." },
+  { year: "2022", q: "6(c)", topic: "Search & Game Playing", subtopic: "Greedy best-first vs A*", marks: 10, type: "Long", text: "Differentiate between Greedy best-first search and A* search." },
+  { year: "2022", q: "7(a)", topic: "Knowledge-Based Agents & Wumpus World", subtopic: "Wumpus rules; pit proof", marks: 15, type: "Problem", text: "Consider the Wumpus world problem where A, W, S, B, G, and P define the facts of the Wumpus world in a faint grid with a B/G cell. Derive rules from the grid and show that there is a Pit P3,3 in position (3,3)." },
+  { year: "2022", q: "7(b)", topic: "FOL, Propositional Logic & Inference", subtopic: "Validity, satisfiability, soundness, completeness", marks: 10, type: "Short", text: "Define validity, satisfiability, soundness, and completeness." },
+  { year: "2022", q: "7(c)", topic: "FOL, Propositional Logic & Inference", subtopic: "Entailment relation", marks: 10, type: "Problem", text: "Let A be the sentence x = 0 and B be the sentence xy = 0. Is there any entailment relation between A and B? If yes, which one is true among A entails B and B entails A, or both? Explain." },
+  { year: "2022", q: "8(a)", topic: "Search & Game Playing", subtopic: "Alpha-beta pruning in game development", marks: 10, type: "Long", text: "Why is Alpha-beta pruning necessary in game development? Justify your answer." },
+  { year: "2022", q: "8(b)", topic: "Planning & Blocks World", subtopic: "Planning definition and example", marks: 7, type: "Short", text: "What do you mean by planning? Give an example." },
+  { year: "2022", q: "8(c)", topic: "Planning & Blocks World", subtopic: "Goal stack planning; box rearrangement", marks: 18, type: "Problem", text: "Design the actions and show the sequence of actions to perform by an intelligent agent using goal stack planning to rearrange boxes from the initial state with B on C, and A and D separate, to the goal state with C on A and B on D." },
+
   { year: "2024", q: "5(a)", topic: "FOL, Propositional Logic & Inference", subtopic: "Propositionalization in FOL", marks: 7, type: "Long", text: "In propositionalization, we can solve any first order logic problem using propositional rules. Is this an effective method for inference in FOL? Discuss your view." },
   { year: "2024", q: "5(b)", topic: "Search & Game Playing", subtopic: "Tic-tac-toe heuristic; minimax depth 2", marks: 16, type: "Problem", text: "Consider the tic-toc-toe board with row 1: O, X, blank; row 2: O, O, X; row 3: blank, blank, blank. Design a simple heuristic function to evaluate non-terminal board states, generate the search tree up to depth 2, and apply minimax to determine the best move for X and explain whether this move guarantees a win, draw, or loss. CO3 is inferred." },
   { year: "2024", q: "5(c)", topic: "Search & Game Playing", subtopic: "Admissible and consistent heuristic", marks: 12, type: "Problem", text: "For graph A -> B = 2, A -> C = 5, B -> D = 4, C -> D = 1, D -> G = 3 with heuristic h(A)=6, h(B)=4, h(C)=2, h(D)=3, h(G)=0, determine whether h(n) is admissible and consistent." },
@@ -182,18 +234,18 @@ const sectionB = [
 ];
 
 const insights = [
-  "Must-study: Section A repeatedly opens with AI fundamentals, intelligent agents, learning agents, perception-action cycles, and PEAS. These appear across all five years.",
+  "Must-study: AI fundamentals, intelligent agents, learning agents, perception-action cycles, PEAS, and machine-intelligence testing repeat across the analyzed eight-year set.",
   "Must-study: Fuzzy logic is one of the strongest Section A patterns. Prepare definitions, fuzzy/crisp comparison, fuzzy set operations, linguistic hedges, expert-system architecture, A/C control, washing machine, and FAM examples.",
   "Must-study: CSP and local search recur heavily in Section A through graph coloring, tree-structured CSP, forward checking, arc consistency, n-queen, and min-conflicts.",
   "Must-study: Search strategy comparison is a stable examiner favorite: A* optimality with consistent heuristics, admissible heuristics, UCS vs BFS, greedy vs A*, and formal problem formulation.",
   "Must-study: Game playing is asked both theoretically and numerically. Practice minimax, tic-tac-toe trees, alpha-beta pruning, heuristic move choice, and horizon effect.",
-  "Section B is probability-dominant. Bayesian networks, Alarm domain, enumeration, Markov/HMM, noisy-Or, and joint probability tables are the highest-yield Section B cluster.",
-  "Logic alternates between representation and proof. Prepare propositional logic limits/CNF, FOL quantifiers, FOL translation, unification, resolution, and forward/backward chaining proofs.",
+  "Probability remains a high-yield cluster, especially Bayesian networks, Alarm domain/product-formula questions, Bayes theorem, enumeration, Markov/HMM, noisy-Or, and joint probability tables.",
+  "Logic is now one of the strongest cross-section clusters. Prepare propositional validity/satisfiability, FOL quantifiers, FOL translation, propositionalization, CNF, resolution, unification, entailment, soundness/completeness, and forward/backward chaining proofs.",
   "Uncertainty reasoning is a second major Section B pillar. Dempster-Shafer tables, default reasoning, uncertainty types, and handling-uncertainty approaches have repeated over several years.",
   "NLP is overlooked but recurring. Parse trees, grammar construction, labeled bracketing, and syntax/semantics/pragmatics/discourse definitions can return as compact mark-scoring questions.",
-  "Planning and expert systems are lower-frequency but important. Blocks World forward planning, planning goals, rule-based expert systems, and conflict resolution are likely short-to-medium questions.",
-  "Probable examiner style: mix conceptual definitions with one or two numerical/proof problems per section. Tables/BN/CSP/game-tree questions often carry 10-15 marks.",
-  "Inferred caution: OCR-blurry items in 2019 tic-tac-toe board and 2019 Alarm BN probability should be verified against the original scan before exact solution practice."
+  "Planning is no longer just lower-frequency: 2022, 2023, and 2024 repeatedly use Blocks World, goal-stack planning, forward planning, action definitions, SAG formulation, and planning-vs-search comparisons.",
+  "Probable examiner style: mix conceptual definitions with one or two numerical/proof/design problems per section. BN/CSP/game-tree/fuzzy-system/planning questions often carry 10-25 marks.",
+  "Inferred caution: OCR-blurry items in 2019 tic-tac-toe board, 2019 Alarm BN probability, 2022/2023 Wumpus grids, and the 2022 Rain-Sprinkler-Grass wet table should be verified against the original scans before exact solution practice."
 ];
 
 function unique(arr) {
@@ -383,7 +435,7 @@ function FrequencyAnalysis({ all, sectionAStats, sectionBStats }) {
             </div>
             <div className="rounded-xl bg-amber-50 p-4">
               <div className="font-black text-amber-900">Shift note</div>
-              <div className="mt-1 text-sm text-amber-800">2021 Section B uniquely brings back search/game-playing and planning in a larger way than 2017-2020.</div>
+              <div className="mt-1 text-sm text-amber-800">2022-2024 show a shift toward integrated design/proof questions: planning, FOL, Wumpus, CSP heuristics, fuzzy-system design, and search/game-playing appear in larger marks-bearing blocks.</div>
             </div>
           </div>
         </Card>
@@ -584,18 +636,6 @@ const tabs = [
   { id: "insights", label: "Examiner Insights" },
 ];
 
-const visitCountStorageKey = "ai-question-dashboard-visit-count";
-
-function readStoredNumber(key) {
-  if (typeof window === "undefined") {
-    return 0;
-  }
-
-  const rawValue = window.localStorage.getItem(key);
-  const parsedValue = Number.parseInt(rawValue || "0", 10);
-  return Number.isFinite(parsedValue) ? parsedValue : 0;
-}
-
 const dashboardCss = `
   .dashboard-root {
     font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -669,21 +709,10 @@ const dashboardCss = `
 
 export default function AIQuestionPatternDashboard() {
   const [active, setActive] = useState("summary");
-  const [visitCount, setVisitCount] = useState(0);
   const all = useMemo(() => [...sectionA, ...sectionB], []);
   const sectionAStats = useMemo(() => makeStats(sectionA), []);
   const sectionBStats = useMemo(() => makeStats(sectionB), []);
   const allStats = useMemo(() => makeStats(all), [all]);
-
-  useEffect(() => {
-    if (typeof window === "undefined") {
-      return undefined;
-    }
-
-    const storedVisitCount = readStoredNumber(visitCountStorageKey) + 1;
-    window.localStorage.setItem(visitCountStorageKey, String(storedVisitCount));
-    setVisitCount(storedVisitCount);
-  }, []);
 
   return (
     <div className="dashboard-root min-h-screen bg-white text-slate-900">
