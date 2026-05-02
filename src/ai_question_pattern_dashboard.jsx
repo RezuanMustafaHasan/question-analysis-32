@@ -735,25 +735,7 @@ export default function AIQuestionPatternDashboard() {
           {active === "insights" && <Insights />}
         </main>
 
-        <footer className="mt-8 rounded-3xl border border-[#048c4b]/20 bg-white/90 p-5 shadow-sm backdrop-blur">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <div className="text-xs font-bold uppercase tracking-[0.2em] text-[#048c4b]">Visitor snapshot</div>
-              <h2 className="mt-2 text-lg font-black text-slate-900">Page counter</h2>
-              {/* <p className="mt-1 text-sm leading-6 text-slate-600">
-                This count is stored in the browser only. It updates without any backend or database, so it reflects this deployment origin and active tabs rather than global site traffic.
-              </p> */}
-            </div>
-            <div className="grid gap-3 sm:min-w-[320px] sm:grid-cols-2">
-              <div className="rounded-2xl border border-[#048c4b]/20 bg-white p-4">
-                <div className="flex items-center gap-3">
-                  <div className="text-xs font-bold uppercase tracking-wide text-[#048c4b]">Visit count :</div>
-                  <span className="text-3xl font-black text-[#048c4b]">{visitCount}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </footer>
+        
       </div>
     </div>
   );
